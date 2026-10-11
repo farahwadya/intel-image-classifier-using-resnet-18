@@ -1,74 +1,76 @@
-# Intel Image Classifier --- ResNet18
+# Intel Image Classifier | ResNet18
 
-A containerized computer vision application that classifies natural
-scene images into six categories using a fine-tuned **ResNet18** model
-built with **PyTorch** and served through **Streamlit**.
+A computer vision application that classifies natural scene images into six categories using a fine-tuned **ResNet18** model built with **PyTorch**.
 
-The project demonstrates an end-to-end workflow from a trained deep
-learning model to a reproducible Dockerized inference application,
-including model configuration, preprocessing, prediction, and container
-deployment.
+The project demonstrates an end-to-end workflow, from a trained deep learning model to a deployed, interactive application, covering image preprocessing, inference, model configuration, and Docker containerization.
 
-## Demo
+## Live Demo
 
-**Application:** Streamlit web application\
-**Model:** ResNet18 · PyTorch\
-**Task:** 6-class image classification\
-**Deployment:** Docker
+**[Try the Live Application](https://intel-image-classifier-using-resnet-18-a7jj9s7uegzwmbzkqysin9.streamlit.app/)**
 
-> **Note:** The trained model weights (`.pth`) are intentionally
-> excluded from this repository because of GitHub file-size
-> considerations. The application code expects the trained weights to be
-> available locally.
+Upload an image and see the model's predicted scene category.
 
-------------------------------------------------------------------------
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://intel-image-classifier-using-resnet-18-a7jj9s7uegzwmbzkqysin9.streamlit.app/)
+
+## Project Overview
+
+The application uses a fine-tuned ResNet18 model to classify natural scene images into six categories. It provides an interactive interface for image upload and model inference.
+
+### Potential Applications
+
+* **Image organization:** Grouping images by scene category.
+* **Urban and geospatial workflows:** Supporting initial categorization of street and building imagery.
+* **Environmental image collections:** Organizing forest, glacier, mountain, and sea images for further analysis.
+
+These are potential use cases; the project itself focuses on image classification rather than full-scale urban or environmental analysis.
 
 ## What the Model Classifies
 
-The classifier predicts one of six scene categories:
+The model predicts one of six scene categories:
 
--   Buildings
--   Forest
--   Glacier
--   Mountain
--   Sea
--   Street
+* Buildings
+* Forest
+* Glacier
+* Mountain
+* Sea
+* Street
 
 The project is based on the Intel Image Classification dataset.
 
-------------------------------------------------------------------------
-
 ## Features
 
--   Upload an image through a simple Streamlit interface
--   Automatic image preprocessing
--   ResNet18 inference with PyTorch
--   CPU/GPU device selection when available
--   Class mapping loaded from JSON configuration
--   Model configuration stored separately from application logic
--   Dockerized application for reproducible deployment
--   Ready for local development and container-based execution
-
-------------------------------------------------------------------------
+* Upload images through a Streamlit interface.
+* Preprocess images before inference.
+* Run predictions using a fine-tuned ResNet18 model.
+* Select an available CPU or GPU device where supported.
+* Load class labels and model settings from JSON configuration files.
+* Run the application locally or inside a Docker container.
 
 ## Tech Stack
 
-  Category               Technology
-  ---------------------- --------------
-  Programming Language   Python
-  Deep Learning          PyTorch
-  Computer Vision        Torchvision
-  Image Processing       Pillow
-  Web Application        Streamlit
-  Containerization       Docker
-  Data / Configuration   JSON
-  Version Control        Git & GitHub
+| Category             | Technology     |
+| -------------------- | -------------- |
+| Programming Language | Python         |
+| Deep Learning        | PyTorch        |
+| Computer Vision      | Torchvision    |
+| Image Processing     | Pillow         |
+| Web Application      | Streamlit      |
+| Containerization     | Docker         |
+| Configuration        | JSON           |
+| Version Control      | Git and GitHub |
 
-------------------------------------------------------------------------
+## Model Performance
+
+* **Architecture:** ResNet18
+* **Framework:** PyTorch
+* **Task:** Six-class image classification
+* **Reported accuracy:** 90%
+
+*Accuracy should be interpreted in the context of the evaluation dataset and test methodology.*
 
 ## Project Structure
 
-``` text
+```text
 intel-image-classifier-using-resnet-18/
 │
 ├── app.py
@@ -82,6 +84,8 @@ intel-image-classifier-using-resnet-18/
 ├── model_config.json
 ├── transform_config.json
 │
+├── resnet18_intel_classifier.pth
+│
 ├── buildings.jpg
 ├── forestpic.jpg
 ├── sea.jpg
@@ -91,241 +95,136 @@ intel-image-classifier-using-resnet-18/
 
 ### Main Files
 
-**`app.py`**\
-Streamlit application responsible for the user interface, image upload,
-preprocessing, model loading, and prediction.
+* **`app.py`** — Streamlit interface, image upload, preprocessing, model loading, and prediction workflow.
+* **`model.py`** — ResNet18 model definition.
+* **`classes.json`** — Mapping between output indices and scene categories.
+* **`model_config.json`** — Configuration used to reconstruct the model.
+* **`transform_config.json`** — Image preprocessing settings.
+* **`resnet18_intel_classifier.pth`** — Trained model weights.
+* **`Dockerfile`** — Instructions for building the Docker image.
+* **`requirements.txt`** — Python dependencies.
 
-**`model.py`**\
-Contains the ResNet18 model definition used by the application.
+## Deployment
 
-**`classes.json`**\
-Stores the mapping between model output indices and the six scene
-classes.
+### Streamlit Community Cloud
 
-**`model_config.json`**\
-Stores model-related configuration required to reconstruct the trained
-model.
+The application is deployed on Streamlit Community Cloud and can be accessed through the live demo link above.
 
-**`transform_config.json`**\
-Stores image preprocessing configuration used during inference.
+### Docker
 
-**`Dockerfile`**\
-Defines the environment and commands required to build and run the
-application as a Docker container.
+The application was also containerized and tested separately to verify that the model and Streamlit interface run inside a Docker container.
 
-**`requirements.txt`**\
-Contains the Python dependencies required by the application.
+**Docker Hub Image:** `farahwadya/intel-image-classifier:v1`
 
-------------------------------------------------------------------------
+[View the Docker image on Docker Hub](https://hub.docker.com/r/farahwadya/intel-image-classifier)
 
 ## Run Locally
 
 ### 1. Clone the repository
 
-``` bash
+```bash
 git clone https://github.com/farahwadya/intel-image-classifier-using-resnet-18.git
 cd intel-image-classifier-using-resnet-18
 ```
 
 ### 2. Create a virtual environment
 
-``` bash
+```bash
 python -m venv .venv
 ```
 
 Activate it on Windows:
 
-``` powershell
+```powershell
 .venv\Scripts\activate
 ```
 
 ### 3. Install dependencies
 
-``` bash
+```bash
 pip install -r requirements.txt
 ```
 
-### 4. Add the trained model weights
+### 4. Start the application
 
-Place the trained weights file in the project root using the expected
-filename:
+Ensure the trained weights file, `resnet18_intel_classifier.pth`, is available in the project root, then run:
 
-``` text
-resnet18_intel_classifier.pth
-```
-
-The weights are not included in this repository because of GitHub
-file-size considerations.
-
-### 5. Start the application
-
-``` bash
+```bash
 streamlit run app.py
 ```
 
-The application will be available at:
-
-``` text
-http://localhost:8501
-```
-
-------------------------------------------------------------------------
+Open `http://localhost:8501` in your browser.
 
 ## Run with Docker
 
-### Build the image
+### Pull the published image
 
-``` bash
-docker build -t intel-image-classifier:v1 .
+```bash
+docker pull farahwadya/intel-image-classifier:v1
 ```
 
 ### Run the container
 
-``` bash
-docker run --name intel-test -p 8501:8501 intel-image-classifier:v1
-```
-
-Then open:
-
-``` text
-http://localhost:8501
-```
-
-### Docker Image
-
-The project was also packaged and tested as a Docker image:
-
-``` text
-farahwadya/intel-image-classifier:v1
-```
-
-If the image is available through Docker Hub, it can be run with:
-
-``` bash
+```bash
 docker run --name intel-test -p 8501:8501 farahwadya/intel-image-classifier:v1
 ```
 
-------------------------------------------------------------------------
+Open `http://localhost:8501` in your browser.
 
-## Docker Workflow
+### Build the image from source
 
-The deployment workflow is:
-
-``` text
-Source Code
-    ↓
-Dockerfile
-    ↓
-Docker Image
-    ↓
-Docker Container
-    ↓
-Streamlit Application
-    ↓
-Image Prediction
+```bash
+docker build -t intel-image-classifier:v1 .
 ```
-
-The Dockerfile uses a Python 3.11 slim base image, installs the
-application dependencies, copies the project files into the container,
-exposes the Streamlit port, and starts the application on container
-startup.
-
-------------------------------------------------------------------------
 
 ## Inference Pipeline
 
-When an image is uploaded, the application follows this workflow:
-
-``` text
+```text
 Input Image
     ↓
 Image Loading
     ↓
-Preprocessing / Transformations
+Preprocessing
     ↓
-ResNet18
+ResNet18 Inference
     ↓
 Class Scores
     ↓
-Predicted Class
+Predicted Scene Category
 ```
 
-The model is loaded for inference and uses the available compute device
-when supported.
+The application loads the trained model for inference and uses the configured image transformations and class mapping.
 
-------------------------------------------------------------------------
+## Engineering Highlights
 
-## Model
-
-The project uses **ResNet18**, a convolutional neural network
-architecture commonly used for image classification.
-
-The trained model is configured for six output classes corresponding to
-the scene categories used by the project.
-
-The application separates:
-
--   Model architecture
--   Model configuration
--   Class labels
--   Image transformation configuration
--   User interface / inference logic
-
-This separation makes the project easier to maintain and adapt.
-
-------------------------------------------------------------------------
-
-## Reproducibility
-
-The project includes the files required to reproduce the application
-environment:
-
--   `requirements.txt` for Python dependencies
--   `Dockerfile` for containerized execution
--   JSON configuration files for model and preprocessing settings
--   Git version control for source-code tracking
-
-The trained model weights are kept outside the Git repository because of
-their file size.
-
-------------------------------------------------------------------------
+* Integrated a trained deep learning model into an interactive application.
+* Separated model architecture, configuration, preprocessing, and interface logic.
+* Containerized the application with Docker.
+* Worked through deployment issues involving Python dependencies and model file availability.
+* Published the source code and Docker image for reproducibility and review.
 
 ## Limitations
 
--   The trained `.pth` weights are not stored in this GitHub repository.
--   The application is currently designed as an inference/demo
-    application rather than a full training pipeline.
--   The current interface is built with Streamlit and is intended for
-    interactive image classification.
-
-------------------------------------------------------------------------
+* The application performs scene classification; it does not provide object detection or detailed scene understanding.
+* Predictions depend on the training data and the quality of the input image.
+* The model is intended for inference and demonstration, not for model training within the deployed interface.
 
 ## Future Improvements
 
-Potential extensions include:
-
--   Add confidence scores and top-k predictions
--   Add model evaluation metrics to the application
--   Add automated tests for preprocessing and inference
--   Expose the model through a FastAPI REST API
--   Add CI/CD with GitHub Actions
--   Publish the container image through a container registry
--   Add model versioning and experiment tracking with MLflow
--   Deploy the application to a cloud platform
-
-------------------------------------------------------------------------
+* Display confidence scores and top-k predictions.
+* Add a model evaluation report with per-class precision, recall, and F1-score.
+* Add automated tests for preprocessing and inference.
+* Expose predictions through a FastAPI REST API.
+* Add CI/CD with GitHub Actions.
+* Track experiments and model versions with MLflow.
 
 ## Author
 
-**Farah Alwadya**\
-AI Engineering Student \| AI & Machine Learning
+**Farah Alwadya**
+AI Engineering | Computer Vision | Deep Learning
 
-GitHub:\
-https://github.com/farahwadya
-
-------------------------------------------------------------------------
+[GitHub Profile](https://github.com/farahwadya)
 
 ## License
 
-This project is intended for educational, portfolio, and demonstration
-purposes.
+This project is intended for educational, portfolio, and demonstration purposes.
